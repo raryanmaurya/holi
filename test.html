@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Holi</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background-color: #f0f0f0;
+    }
+    canvas {
+      display: block;
+    }
+    .message {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 3em;
+      color: white;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+  </style>
+</head>
+<body>
+  <canvas id="holiCanvas"></canvas>
+  <div class="message">Happy Holi!</div>
+
+  <script>
+    const canvas = document.getElementById('holiCanvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const colors = ['#FF2400', '#007FFF', '#FFD700', '#008000', '#800080', '#FF1493', '#FF4500', '#00CED1', '#FFFF00'];
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      for (let i = 0; i < 100; i++) {
+        const x = Math.random() * canvas.width;
+        const y = Math.random() * canvas.height;
+        const color = colors[Math.floor(Math.random() * colors.length)];
+
+        ctx.beginPath();
+        ctx.arc(x, y, Math.random() * 20, 0, Math.PI * 2);
+        ctx.fillStyle = color;
+        ctx.fill();
+      }
+
+      requestAnimationFrame(draw);
+    }
+
+    draw();
+
+    canvas.addEventListener('click', function(event) {
+      const x = event.clientX;
+      const y = event.clientY;
+      const color = colors[Math.floor(Math.random() * colors.length)];
+
+      for (let i = 0; i < 50; i++) {
+        const offsetX = (Math.random() - 0.5) * 100;
+        const offsetY = (Math.random() - 0.5) * 100;
+
+        ctx.beginPath();
+        ctx.arc(x + offsetX, y + offsetY, Math.random() * 20, 0, Math.PI * 2);
+        ctx.fillStyle = color;
+        ctx.fill();
+      }
+
+      showHappyHoliMessage(x, y);
+    });
+
+    function showHappyHoliMessage(x, y) {
+      const message = document.querySelector('.message');
+      message.style.left = x + 'px';
+      message.style.top = y + 'px';
+      message.style.opacity = '1';
+
+      setTimeout(() => {
+        message.style.opacity = '0';
+      }, 2000);
+    }
+  </script>
+</body>
+</html>
